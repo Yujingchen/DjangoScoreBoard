@@ -14,8 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
+from django.urls import include,path
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('polls/',include('polls.urls'))
 ]
+
+# when processing a request, django start searching at first pattern and makes it way down
+# when it matches with "polls" it chop off from there and send the remain string to polls.urlconf
+
+#question
+#how to pass parameter to polls url? for example www.example/polls/?page=3
+#route Patterns don’t search GET and POST parameters, or the domain name. no answered 
