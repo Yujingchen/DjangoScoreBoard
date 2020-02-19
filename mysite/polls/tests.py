@@ -48,3 +48,15 @@ class QuestionDetailViewTests(TestCase):
         url = reverse('polls:detail',args=(pass_question.id,))
         response = self.client.get(url)
         self.assertContains(response, pass_question.question_text)
+
+class QuestionResultsViewTests(TestCase):
+    def test_future_question(self):
+        future_question = create_question(question_text='Future question.', days=5)
+        url = reverse('polls:results', args=(future_question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+    def test_pass_question(self):
+        pass_question = create_question(question_text='Pass question.', days=-5)
+        url = reverse('polls:results',args=(pass_question.id,))
+        response = self.client.get(url)
+        self.assertContains(response, pass_question.question_text)
